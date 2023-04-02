@@ -11,16 +11,16 @@ export class ScreenerApiController {
     nseIndia:object;
     constructor(private readonly screenerApiService: ScreenerAPIService){}
 
-@ApiOperation({summary : 'Endpoint to get the nse-india constructor initialization data'})
-  @Get('screener-api/constructor')
-  async getConstructor(): Promise<any> {
-    return await this.screenerApiService.getConstructor();
-  }
-  @ApiOperation({summary : 'Endpoint to get all equity symbols'})
-  @Get('screener-api/all-equity-symbol')
-  async getAllSymbol(): Promise<any> {
-    return await this.screenerApiService.getAllSymbol();
-  }
+    @ApiOperation({summary : 'Endpoint to get the nse-india constructor initialization data'})
+    @Get('screener-api/constructor')
+    async getConstructor(): Promise<any> {
+        return await this.screenerApiService.getConstructor();
+    }
+    @ApiOperation({summary : 'Endpoint to get all equity symbols'})
+    @Get('screener-api/all-equity-symbol')
+    async getAllSymbol(): Promise<any> {
+        return await this.screenerApiService.getAllSymbol();
+    }
   @ApiOperation({summary : 'Endpoint to get the equity details via symbol'})
   @Get('screener-api/equity-details/:equitySymbol')
   @ApiParam({
@@ -71,6 +71,18 @@ export class ScreenerApiController {
         end: new Date(endDate),
     }
     const response = await this.screenerApiService.getEquityHistoricalData(equitySymbol, range);
+    if (response && response.data) {
+        return res.status(HttpStatus.OK).send(response);
+    }
+    return res.status(HttpStatus.BAD_REQUEST).send(response);
+  }
+
+  @ApiOperation({summary : 'Endpoint to get total number of nse listed stocks'})
+  @Get('screener-api/total-nse-listings')
+  async totalNseListings(
+    @Res() res: Response
+    ): Promise<any> {
+    const response = await this.screenerApiService.totalNseListings();
     if (response && response.data) {
         return res.status(HttpStatus.OK).send(response);
     }

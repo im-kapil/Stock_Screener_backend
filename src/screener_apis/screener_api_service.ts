@@ -54,6 +54,15 @@ export class ScreenerAPIService {
     }
    }
 
+   async totalNseListings(): Promise<any>{
+    try {
+        const allSymbol =  await this.getAllSymbol();
+        return { data: allSymbol?.length };
+    } catch (error) {
+        throw new Error(error.message);
+    }
+   }
+
 
 
 }
