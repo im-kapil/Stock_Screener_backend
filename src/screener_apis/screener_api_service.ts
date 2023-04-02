@@ -1,6 +1,7 @@
 /* eslint-disable no-await-in-loop */
 import { Injectable, Logger } from '@nestjs/common';
 import { NseIndia } from 'stock-nse-india';
+import { DateRange } from 'stock-nse-india/build/interface';
 
 
 @Injectable()
@@ -42,6 +43,17 @@ export class ScreenerAPIService {
         throw new Error(error.message);
     }
    }
+
+   async getEquityHistoricalData(symbol: string, range: DateRange):Promise<any>{
+    try {
+        const equityData:any = await this.nseIndia.getEquityHistoricalData(symbol, range);
+        return { data: equityData };
+    } catch (error) {
+        this.logger.log('Error in getEquityHistoricalData():', error.message);
+        throw new Error(error.message);
+    }
+   }
+
 
 
 }
