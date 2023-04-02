@@ -5,7 +5,7 @@ import  { Response} from 'express';
 
 
 @Controller()
-@ApiTags('Screener APIs')
+@ApiTags('Simple Screener APIs')
 
 export class ScreenerApiController {
     nseIndia:object;
@@ -64,7 +64,8 @@ export class ScreenerApiController {
     @Param('equitySymbol') equitySymbol: string,
     @Param('startDate') startDate: string , 
     @Param('endDate') endDate: string , 
-    @Res() res: Response): Promise<any> {
+    @Res() res: Response
+    ): Promise<any> {
     const range = {
         start: new Date(startDate),
         end: new Date(endDate),
