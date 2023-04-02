@@ -27,9 +27,19 @@ export class ScreenerAPIService {
 
    async getEquityDetailsViaSymbol(symbol:string):Promise<any>{
     try {
-     return await this.nseIndia.getEquityDetails(symbol);
+        const equityData:any = await this.nseIndia.getEquityDetails(symbol);
+        if(!equityData.error){
+            return { data: equityData };
+        }
+        return {
+            error: [{
+                type: 'Get Equity info error',
+                message: equityData
+            }]
+        }
     } catch (error) {
-     throw new Error(error.message);
+        this.logger.log('Error in getEquityDetailsViaSymbol():', error.message);
+        throw new Error(error.message);
     }
    }
 
